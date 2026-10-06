@@ -1,0 +1,478 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude × BNA Corporate</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="doc-header">
+    <div>
+      <p class="eyebrow">Retour d'expérience · Octobre 2026</p>
+      <h1 class="doc-title">
+        Développement assisté par <em>Claude</em><br>sur le projet BNA Corporate
+      </h1>
+      <p class="doc-subtitle">
+        Comment l'IA générative a transformé le cycle de développement d'une plateforme bancaire corporate — de la lecture de spec au commit final.
+      </p>
+    </div>
+    <aside class="header-meta">
+      <div class="meta-row">
+        <strong>Roua Mansour</strong>
+        Frontend Developer
+      </div>
+      <div class="meta-row" style="margin-top:12px">
+        <strong>BNA Corporate Banking</strong>
+        Banque Nationale Agricole
+      </div>
+      <div class="meta-row" style="margin-top:12px">
+        <strong>Période</strong>
+        Avr – Oct 2026
+      </div>
+    </aside>
+  </header>
+
+  <!-- ── 1. CONTEXTE ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="s-num">01</span>
+      <h2 class="s-title">Contexte du projet</h2>
+    </div>
+    <p class="section-lead">
+      BNA Corporate est une plateforme bancaire entreprise construite en monorepo Lerna. Elle regroupe deux applications — <strong>CSA</strong> (back-office administrateur) et <strong>eBanking</strong> (portail client)
+    </p>
+    
+  </section>
+
+  <!-- ── 2. COMMENT CLAUDE A ÉTÉ EXPLOITÉ ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="s-num">02</span>
+      <h2 class="s-title">Comment Claude a été intégré dans le workflow</h2>
+    </div>
+    <p class="section-lead">
+      Claude n'a pas remplacé le raisonnement du développeur — il l'a amplifié à chaque étape du cycle de développement, de la compréhension du besoin jusqu'à la revue de code post-implémentation.
+    </p>
+    <div class="workflow">
+      <div class="wf-step">
+        <span class="wf-n">1</span>
+        <h3>Lecture &amp; analyse de spec</h3>
+        <p>Claude lit la User Story ClickUp en entier (prose + tableau Formulaire + wireframe), identifie les règles métier implicites et les gaps entre spec et maquette, puis génère un PRD structuré dans <code>ai-docs/features/</code>.</p>
+        <span class="wf-tool">ClickUp MCP</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-n">2</span>
+        <h3>Plan d'implémentation TDD</h3>
+        <p>Avant d'écrire du code, Claude rédige les cas de test (tableau ID / Préconditions / Steps / Résultat attendu), identifie les hooks, utils, constants et pages à créer ou modifier, en respectant l'architecture existante.</p>
+        <span class="wf-tool">TDD-first</span>
+      </div>
+      <div class="wf-step">
+        <span class="wf-n">3</span>
+        <h3>Implémentation &amp; revue</h3>
+        <p>Claude génère l'implémentation minimale pour faire passer les tests (RED → GREEN), respecte les conventions CLAUDE.md (pas de module-level constants dans les hooks, export formatté pour les montants, optional chaining sur les données API), puis lance une revue automatique avant commit.</p>
+        <span class="wf-tool">Code review skill</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. FEATURES EN FOCUS ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="s-num">03</span>
+      <h2 class="s-title">Exemples concrets de features développées</h2>
+    </div>
+    <p class="section-lead">
+      Les features ci-dessous illustrent la diversité des cas traités — du composant UI isolé au module complet avec routing, permissions et pagination.
+    </p>
+
+    <div class="features-list">
+
+      <!-- PENDING OPERATIONS -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">eBanking · Dashboard</span>
+          <h3 class="feat-name">Opérations en attente — Vue globale des soldes</h3>
+          <div class="feat-chips">
+            <span class="chip">Accordion</span>
+            <span class="chip">Pagination</span>
+            <span class="chip">RBAC</span>
+            <span class="chip">Month picker</span>
+            <span class="chip">14 TCs</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            Écran listant les opérations en attente par groupe/entreprise, avec navigation mensuelle, accordion collapsible et redirection contextuelle vers l'espace de l'entreprise concernée. Feature complète : PRD généré depuis la US ClickUp, 14 cas de test écrits en TDD, implémentation hook + utils + routing RBAC (<code>RoutePermissionWrapper</code>).
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Défi :</strong> grouper les opérations côté front (l'API renvoie un tableau plat), filtrer les entreprises sans opération, gérer le reset de page lors du changement de mois.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Gain :</strong> Claude a tracé l'intégralité du plan (hooks, utils, sidebar entry, route guard, tests) en une session. Estimation manuelle : 4-5 jours. Réalisé en 1,5 jour.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Qualité :</strong> couverture 14 TCs incluant cas limites (groupes vides, API error, pagination + changement de mois, permission manquante sur URL directe).</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- DINAR / FOREIGN CURRENCY ORDER -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">CSA + eBanking · Commandes</span>
+          <h3 class="feat-name">Commande de dinars &amp; commande de devises — Feature from scratch</h3>
+          <div class="feat-chips">
+            <span class="chip">Nouveau module</span>
+            <span class="chip">ebanking-ui / business / state</span>
+            <span class="chip">Workflow CSA</span>
+            <span class="chip">Jours fériés</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            Deux modules entièrement nouveaux côté eBanking (<code>dinar-order</code> et <code>foreign-currency-order</code>) : liste des demandes avec filtres, création de demande, confirmation, détail de la demande et commentaire d'approbation de la banque. Côté CSA, intégration du processus d'approbation et affichage du détail de la transaction dans <code>transaction-context</code>. La feature traverse toutes les couches : UI → Business → State.
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>From scratch :</strong> Claude a posé la structure complète du module (service, types, constants, hooks, containers, pages, routes, locales, entrée sidebar) en suivant les conventions des modules existants.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Réutilisation :</strong> le module devises a été construit sur le modèle du module dinars ; la logique de formatage des comptes a ensuite été extraite en fonctions réutilisables partagées par les deux.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Règle métier :</strong> la date de retrait exclut les week-ends et jours fériés, via un composant <code>weekday-date-input</code> dédié et couvert par des tests.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Sécurité :</strong> les pages de détail sont protégées par <code>RoutePermissionWrapper</code>.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- AFB DOWNLOAD -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">eBanking · Comptes</span>
+          <h3 class="feat-name">Téléchargement AFB / MT94x — API v2</h3>
+          <div class="feat-chips">
+            <span class="chip">V2 Documents API</span>
+            <span class="chip">File download</span>
+            <span class="chip">Blob handler</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            Migration du téléchargement de fichiers AFB (relevés de compte) et MT94x de l'ancienne API vers le nouveau endpoint <code>/secure/documents/v2</code>. Gestion du blob, du nom de fichier extrait depuis l'en-tête <code>Content-Disposition</code>, et du fallback quand le format n'est pas disponible.
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Navigation cross-repo :</strong> Claude a tracé l'implémentation en lisant le backend BNA (<code>bna-corp-backend/</code>) pour confirmer le contrat du nouveau endpoint avant d'écrire une ligne de code front.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Rule appliquée :</strong> <code>exportAccessor</code> sur les colonnes montant formaté via <code>formatAmount</code>, conformément à la règle CLAUDE.md ebanking-ui (Rule 5).</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- BULK TRANSFER -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">eBanking · Transferts</span>
+          <h3 class="feat-name">Virement groupé — Commission, annulation &amp; permissions</h3>
+          <div class="feat-chips">
+            <span class="chip">Commission TVA</span>
+            <span class="chip">Cancel flow</span>
+            <span class="chip">Route permissions</span>
+            <span class="chip">File upload</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            Série de features sur le module virement par fichier : affichage de la commission TVA sur le récapitulatif, flux d'annulation avec écran de confirmation, permission de route <code>cancel-bulk-transfer</code>, et gestion des fichiers dupliqués avec fallback de nom. Chaque sous-feature a été planifiée et livrée indépendamment.
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>TDD :</strong> pour la commission, les tests ont d'abord vérifié le rendu de <code>--</code> quand la donnée est absente, puis le format <code>formatAmount</code> quand elle est présente — avant l'implémentation.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Règle optional chaining :</strong> <code>commissionData?.commission</code> au lieu de <code>commissionData.commission</code> — protège contre les champs renommés/absents en production sans attendre que le backend soit mis à jour.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PANORAMA -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">eBanking · Dashboard</span>
+          <h3 class="feat-name">Panorama — Vérification &amp; adaptation d'une feature existante</h3>
+          <div class="feat-chips">
+            <span class="chip">Existant</span>
+            <span class="chip">Revue de code</span>
+            <span class="chip">RoutePermissionWrapper</span>
+            <span class="chip">Notifications</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            La page Panorama existait déjà dans le produit Bankerise Corporate. Le travail ne consistait pas à la réécrire, mais à vérifier son comportement sur le contexte BNA et à l'adapter : ajout de la section utilisateur, protection de la page par <code>RoutePermissionWrapper</code>, branchement des endpoints liste en attente et notifications, et intégration des opérations en attente avec traductions et routing.
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Vérification d'abord :</strong> Claude a lu l'implémentation existante (<code>dashboard/features/panorama</code>) et comparé son comportement à la US avant de proposer un changement — l'objectif était d'identifier les écarts, pas de tout réécrire.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Adaptations ciblées :</strong> modifications limitées aux écarts constatés (section utilisateur, permissions de route, endpoints, locales, entrée sidebar), sans toucher au reste de la page.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CSV EXPORT -->
+      <article class="feat-card">
+        <div class="feat-aside">
+          <span class="feat-tag">eBanking · Transactions</span>
+          <h3 class="feat-name">Export CSV transactions — Montants formatés &amp; devises zéro-décimal</h3>
+          <div class="feat-chips">
+            <span class="chip">formatAmount</span>
+            <span class="chip">exportAccessor</span>
+            <span class="chip">Zero-decimal</span>
+            <span class="chip">Excel-safe dates</span>
+          </div>
+        </div>
+        <div class="feat-body">
+          <p class="feat-desc">
+            Export de l'historique de transactions en CSV avec gestion des montants formatés (ne pas laisser Excel afficher <code>#######</code> sur les dates), préservation des devises à zéro décimal, et <code>exportAccessor</code> cohérent avec le rendu visuel de chaque colonne.
+          </p>
+          <div class="feat-points">
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Règle critique :</strong> Rule 5 impose que l'<code>exportAccessor</code> appelle <code>formatAmount</code> — la même fonction que le rendu visuel. Claude a appliqué cette règle et corrigé les colonnes existantes qui ne le faisaient pas encore.</span>
+            </div>
+            <div class="point">
+              <span class="point-icon">▸</span>
+              <span class="point-text"><strong>Edge case :</strong> les devises zéro-décimal (pas de centimes) étaient incorrectement filtrées. Identifié et corrigé lors de l'écriture du test avant implémentation.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── 4. GAINS ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="s-num">04</span>
+      <h2 class="s-title">Gains en temps et en qualité</h2>
+    </div>
+    <div class="gains-grid">
+
+      <div class="gain-block">
+        <h2 class="gain-heading">
+          <span class="gain-heading-icon">◎</span>
+          Gain de temps par activité
+        </h2>
+        <p class="gain-sub">Ce qui va plus vite avec Claude, comparé à la façon habituelle de travailler sur des features de complexité comparable.</p>
+        <div class="feat-points">
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Lecture &amp; analyse de spec :</strong> Claude lit la US complète (prose, tableaux, règles de gestion) et en sort une synthèse claire avec les points ambigus. On ne relit plus la spec plusieurs fois pour comprendre ce qui est demandé.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Génération des cas de test :</strong> les cas de test sont proposés directement à partir de la spec, y compris les cas limites. Il reste seulement à les relire et à les compléter, au lieu de les écrire un par un.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Implémentation :</strong> la structure d'un module (service, types, hooks, containers, pages, routes, locales) est posée rapidement en suivant les modules existants. Le temps est consacré à la logique métier plutôt qu'au code répétitif.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Navigation cross-repo / cross-package :</strong> retrouver où une donnée est définie, transformée et affichée à travers UI, Business, State et le backend se fait en une question, sans parcourir les dossiers à la main.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Debugging :</strong> Claude remonte la chaîne d'appel pour trouver la cause réelle d'un bug avant de proposer un correctif, ce qui évite les essais au hasard.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Documentation (PRD, plans) :</strong> le PRD et le plan d'implémentation sont rédigés à partir de la US et du code. Il ne reste qu'à les valider et à les ajuster.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gain-block">
+        <h2 class="gain-heading">
+          <span class="gain-heading-icon">◎</span>
+          Amélioration de la qualité
+        </h2>
+        <p class="gain-sub">L'impact le plus fort n'est pas la vitesse seule — c'est la réduction des aller-retours en revue et la cohérence des conventions sur l'ensemble du projet.</p>
+        <div class="feat-points">
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Tests plus complets :</strong> les tests sont écrits avant l'implémentation (TDD), et chaque feature arrive avec ses tests au lieu de les ajouter après coup.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Respect des conventions :</strong> les règles du CLAUDE.md (structure page/container, nommage anglais, <code>formatAmount</code>, optional chaining…) sont appliquées systématiquement, sur chaque fichier.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Bugs détectés plus tôt :</strong> beaucoup de problèmes (donnée absente, cas d'erreur API, permission manquante) sont repérés pendant l'écriture des tests, avant même la code review.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Moins d'aller-retours en review :</strong> le code soumis respecte déjà les conventions et couvre les cas limites, donc les retours de revue portent sur le fond plutôt que sur la forme.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Cohérence du naming et de la structure :</strong> les nouveaux modules ressemblent aux modules existants, ce qui rend le code plus facile à lire et à maintenir par toute l'équipe.</span>
+          </div>
+          <div class="point">
+            <span class="point-icon">▸</span>
+            <span class="point-text"><strong>Edge cases couverts :</strong> les cas que la spec ne mentionne pas explicitement (listes vides, champs absents, jours fériés…) sont signalés et traités au lieu d'être découverts en recette.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 5. CE QUI A LE MIEUX FONCTIONNÉ ── -->
+  <section class="section">
+    <div class="section-header">
+      <span class="s-num">05</span>
+      <h2 class="s-title">Ce qui a le mieux fonctionné</h2>
+    </div>
+    <p class="section-lead">
+      Quatre pratiques ont fait la différence au quotidien. Chacune répond à un problème concret du projet et produit un résultat visible dans le code livré.
+    </p>
+    <div class="tools-grid">
+
+      <article class="tool-box">
+        <header class="tool-head">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 2.2 1.2 3.7 2.4 4.8.8.7 1.1 1.4 1.1 2.2v.5h5v-.5c0-.8.3-1.5 1.1-2.2C16.8 12.7 18 11.2 18 9a6 6 0 0 0-6-6Z"/><path d="M9.5 19.5h5M10.5 22h3"/></svg>
+          </span>
+          <div>
+            <span class="tool-kicker">Pratique 01</span>
+            <h3>Mémoire de projet persistante</h3>
+          </div>
+        </header>
+        <p><strong>Problème :</strong> sur un monorepo multi-package, les conventions sont nombreuses et faciles à oublier d'une feature à l'autre.</p>
+        <p><strong>Avec Claude :</strong> les règles du projet (CLAUDE.md + fichiers <code>memory/</code>) sont conservées entre les sessions et appliquées sans rappel — optional chaining, pas de constantes au niveau module, export formaté.</p>
+        <div class="code-snippet">// Appliqué automatiquement :
+data?.field ?? '--'   // optional chaining
+// et non : data.field</div>
+        <p class="tool-result"><span>Résultat</span>Des conventions identiques sur toutes les features, sans relecture dédiée.</p>
+      </article>
+
+      <article class="tool-box">
+        <header class="tool-head">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20.5 20.5-4.9-4.9M11 8v3.5M11 14h.01"/></svg>
+          </span>
+          <div>
+            <span class="tool-kicker">Pratique 02</span>
+            <h3>Détection des contraintes cachées</h3>
+          </div>
+        </header>
+        <p><strong>Problème :</strong> dans les US ClickUp, certaines contraintes n'apparaissent que dans les tableaux Formulaire ou les wireframes, pas dans le texte.</p>
+        <p><strong>Avec Claude :</strong> la spec est lue en entier au format <code>text/md</code> ; les écarts entre texte, tableaux et maquette sont listés et documentés avant de coder.</p>
+        <p class="tool-result"><span>Résultat</span>Moins de corrections après review : les ambiguïtés sont levées avant l'implémentation.</p>
+      </article>
+
+      <article class="tool-box">
+        <header class="tool-head">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.5 6h7M7.2 8.2l3.6 7.6M16.8 8.2l-3.6 7.6"/></svg>
+          </span>
+          <div>
+            <span class="tool-kicker">Pratique 03</span>
+            <h3>Navigation cross-repo précise</h3>
+          </div>
+        </header>
+        <p><strong>Problème :</strong> le monorepo consomme des packages compilés (<code>@corporate/*</code>) dont la source se trouve dans un repo voisin.</p>
+        <p><strong>Avec Claude :</strong> la source réelle est lue directement, sans passer par le <code>dist</code> — y compris le backend pour confirmer un contrat d'API.</p>
+        <p class="tool-result"><span>Résultat</span>Pas de conclusions erronées sur des types ou des comportements «&nbsp;manquants&nbsp;».</p>
+      </article>
+
+      <article class="tool-box">
+        <header class="tool-head">
+          <span class="tool-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="m8 9 1.5 1.5L12 8M8 15l1.5 1.5L12 14M14.5 9.5H16M14.5 15.5H16"/></svg>
+          </span>
+          <div>
+            <span class="tool-kicker">Pratique 04</span>
+            <h3>TDD systématique</h3>
+          </div>
+        </header>
+        <p><strong>Problème :</strong> les cas limites sont souvent découverts tard, en recette ou en production.</p>
+        <p><strong>Avec Claude :</strong> les cas de test sont rédigés en tableau avant la moindre ligne d'implémentation, ce qui oblige à penser aux edge cases dès le départ.</p>
+        <div class="code-snippet">// TC-08 : échec du changement de workspace
+// → modal d'erreur, l'utilisateur reste sur l'écran
+// Détecté avant l'implémentation du hook</div>
+        <p class="tool-result"><span>Résultat</span>Les bugs sont trouvés en phase RED, pas en revue ni en production.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ── CONCLUSION ── -->
+  <section class="conclusion">
+    <span class="conclusion-kicker">Conclusion</span>
+    <h2>Claude comme amplificateur de rigueur, pas de productivité brute</h2>
+    <p>
+      Le gain le plus mesurable n'est pas la vitesse d'écriture du code, mais la réduction de la <strong>dette invisible</strong> : ces petits écarts qui ne cassent rien sur le moment et qui coûtent cher en review, en recette ou en production. Sur un projet bancaire de cette complexité — monorepo multi-package, deux applications, règles métier strictes, specs réparties entre texte, tableaux et maquettes — c'est là que Claude a le plus apporté.
+    </p>
+
+    <div class="conclusion-grid">
+      <div class="conclusion-item">
+        <span class="ci-before">Specs mal lues</span>
+        <p>Chaque US est lue en entier, tableaux Formulaire et wireframes compris. Les contraintes cachées sont relevées avant de coder.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="ci-before">Edge cases non couverts</span>
+        <p>Les cas de test sont écrits avant l'implémentation. Données absentes, erreurs API et permissions manquantes sont traitées dès le départ.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="ci-before">Conventions à géométrie variable</span>
+        <p>Les règles du CLAUDE.md sont appliquées de la même façon sur chaque feature, quel que soit le module ou le package.</p>
+      </div>
+    </div>
+
+    <p>
+      Claude a fonctionné comme un co-développeur rigoureux : il propose, vérifie et signale ; le développeur garde la main sur les choix d'architecture, la validation métier et la décision finale.
+    </p>
+
+    <blockquote class="conclusion-quote">
+      « La valeur n'est pas dans la génération de code — elle est dans la cohérence maintenue au fil des features et sur la durée du développement. »
+    </blockquote>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="doc-footer">
+    <span>BNA Corporate Banking · Frontend · Proxym IT</span>
+    <span> Octobre 2026</span>
+  </footer>
+
+</div>
