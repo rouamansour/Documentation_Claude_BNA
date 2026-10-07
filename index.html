@@ -175,7 +175,7 @@
           <div class="feat-points">
             <div class="point">
               <span class="point-icon">▸</span>
-              <span class="point-text"><strong>Défi :</strong> modifier un module existant sans casser les parcours en place ; appliquer les évolutions de façon cohérente sur les trois types de virement, qui partagent une partie de la logique mais ont chacun leurs spécificités ; gérer les commissions et la TVA lorsque la donnée est absente ou incomplète côté API.</span>
+              <span class="point-text"><strong>Défi :</strong> Modifier un module existant sans casser les parcours en place ; appliquer les évolutions de façon cohérente sur les trois types de virement, qui partagent une partie de la logique mais ont chacun leurs spécificités ; gérer les commissions et la TVA lorsque la donnée est absente ou incomplète côté API.</span>
             </div>
             <div class="point">
               <span class="point-icon">▸</span>
@@ -183,7 +183,7 @@
             </div>
             <div class="point">
               <span class="point-icon">▸</span>
-              <span class="point-text"><strong>Qualité :</strong> tests écrits avant l'implémentation (affichage de <code>--</code> quand la commission est absente, format <code>formatAmount</code> quand elle est présente) ; accès défensif aux données via optional chaining (<code>commissionData?.commission</code>) ; actions et routes protégées par permission ; conventions du module existant respectées.</span>
+              <span class="point-text"><strong>Qualité :</strong> Tests définis en amont pour couvrir les données absentes ou disponibles, avec affichage de <code>--</code> ou formatage via <code>formatAmount</code>. Permissions appliquées aux actions et aux routes, dans le respect des conventions du module.</span>
             </div>
           </div>
         </div>
